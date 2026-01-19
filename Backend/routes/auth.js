@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { MOCK_TOKEN } from '../middleware/auth.js';
+
 const router = express.Router();
-const { MOCK_TOKEN } = require('../middleware/auth');
 
 router.post('/login', (req, res) => {
 	const { email, password } = req.body;
@@ -16,4 +17,4 @@ router.post('/login', (req, res) => {
 	}
 });
 
-module.exports = router;
+export default router;

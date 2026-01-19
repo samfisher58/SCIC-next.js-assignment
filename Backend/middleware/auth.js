@@ -1,6 +1,6 @@
-const MOCK_TOKEN = 'mock_token_secret_123';
+export const MOCK_TOKEN = 'mock_token_secret_123';
 
-function authenticateToken(req, res, next) {
+export function authenticateToken(req, res, next) {
 	const authHeader = req.headers['authorization'];
 	const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
@@ -12,5 +12,3 @@ function authenticateToken(req, res, next) {
 		return res.sendStatus(403);
 	}
 }
-
-module.exports = { authenticateToken, MOCK_TOKEN };

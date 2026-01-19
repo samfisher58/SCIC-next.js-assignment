@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export function middleware(request) {
+export default function proxy(request) {
 	const path = request.nextUrl.pathname;
 	const isProtected = path === '/add-item';
 	const token = request.cookies.get('auth_token')?.value;

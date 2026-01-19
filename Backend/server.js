@@ -1,7 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const itemsRoutes = require('./routes/items');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import itemsRoutes from './routes/items.js';
+import authRoutes from './routes/auth.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +16,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/items', itemsRoutes);
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
 	res.send('Restaurant API is running');

@@ -1,4 +1,6 @@
-const express = require('express');
+import express from 'express';
+import { authenticateToken } from '../middleware/auth.js';
+
 const router = express.Router();
 
 // Mock Database (In-Memory)
@@ -77,8 +79,6 @@ router.get('/:id', (req, res) => {
 	res.json(item);
 });
 
-const { authenticateToken } = require('../middleware/auth');
-
 // POST /api/items - Add new item (Protected)
 router.post('/', authenticateToken, (req, res) => {
 	const { name, description, price, image, category } = req.body;
@@ -102,4 +102,4 @@ router.post('/', authenticateToken, (req, res) => {
 	res.status(201).json(newItem);
 });
 
-module.exports = router;
+export default router;

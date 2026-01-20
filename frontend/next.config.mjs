@@ -6,6 +6,7 @@ const nextConfig = {
 		root: process.cwd(),
 	},
 	output: 'export',
+	distDir: 'out',
 	trailingSlash: true,
 	skipTrailingSlashRedirect: true,
 	images: {

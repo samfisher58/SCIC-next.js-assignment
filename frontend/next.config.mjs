@@ -5,7 +5,10 @@ const nextConfig = {
 	turbopack: {
 		root: process.cwd(),
 	},
+	output: 'export',
+	trailingSlash: true,
 	images: {
+		unoptimized: true,
 		remotePatterns: [
 			{
 				protocol: 'https',
@@ -14,5 +17,3 @@ const nextConfig = {
 		],
 	},
 };
-
-export default nextConfig;

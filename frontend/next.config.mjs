@@ -1,12 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	/* config options here */
-	reactCompiler: true,
-	turbopack: {
-		root: process.cwd(),
-	},
 	output: 'export',
-	distDir: 'out',
 	trailingSlash: true,
 	skipTrailingSlashRedirect: true,
 	images: {
@@ -19,3 +14,5 @@ const nextConfig = {
 		],
 	},
 };
+
+export default nextConfig;

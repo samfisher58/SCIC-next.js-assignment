@@ -2,18 +2,19 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { login } from '../../utils/api';
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-
-	const { login } = require('../../utils/api');
 
 	const handleSubmit = async e => {
 		e.preventDefault();
 		setError('');
+		setLoading(true);
 
 		try {
 			const data = await login(email, password);
@@ -21,7 +22,9 @@ export default function LoginPage() {
 			document.cookie = `auth_token=${data.token}; path=/; max-age=3600`;
 			router.push('/items');
 		} catch (err) {
-			setError('Invalid credentials. Try admin@example.com / password');
+			setError('Invalid credentials. Use admin@example.com / password');
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -32,6 +35,9 @@ export default function LoginPage() {
 					<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
 						Sign in to your account
 					</h2>
+					<p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+						Connected to Railway backend
+					</p>
 				</div>
 				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
 					<div className="rounded-md shadow-sm -space-y-px">
@@ -58,7 +64,7 @@ export default function LoginPage() {
 					</div>
 
 					{error && (
-						<div className="text-red-500 text-sm text-center font-medium">
+						<div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg text-sm text-center font-medium">
 							{error}
 						</div>
 					)}
@@ -66,14 +72,19 @@ export default function LoginPage() {
 					<div>
 						<button
 							type="submit"
-							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+							disabled={loading}
+							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 						>
-							Sign in
+							{loading ? 'Signing in...' : 'Sign in'}
 						</button>
 					</div>
 
-					<div className="text-sm text-center text-gray-500 dark:text-gray-400">
-						Use <b>email: admin@example.com</b> / <b>pass: password</b>
+					<div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg">
+						<div className="text-sm text-center text-amber-800 dark:text-amber-200">
+							<div className="font-semibold mb-1">Demo Credentials:</div>
+							<div><b>Email:</b> admin@example.com</div>
+							<div><b>Password:</b> password</div>
+						</div>
 					</div>
 				</form>
 			</div>

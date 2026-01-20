@@ -80,37 +80,6 @@ export default function AddItemPage() {
 		return null; // Will redirect to login
 	}
 
-	const handleChange = e => {
-		const { name, value } = e.target;
-		setFormData(prev => ({
-			...prev,
-			[name]: value,
-		}));
-	};
-
-	const handleSubmit = async e => {
-		e.preventDefault();
-		setLoading(true);
-		setError('');
-
-		try {
-			const itemData = {
-				...formData,
-				price: parseFloat(formData.price),
-			};
-
-			await createItem(itemData);
-			toast.success('Item created successfully!');
-			router.push('/items');
-			router.refresh();
-		} catch (err) {
-			setError('Failed to create item. Please try again.');
-			toast.error('Failed to create item');
-		} finally {
-			setLoading(false);
-		}
-	};
-
 	return (
 		<div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col transition-colors duration-300">
 			<Navbar />

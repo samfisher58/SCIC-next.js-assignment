@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createItem } from '../../utils/api';
 import Navbar from '../../components/Navbar';
@@ -12,6 +12,8 @@ export default function AddItemPage() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [authLoading, setAuthLoading] = useState(true);
 	const [formData, setFormData] = useState({
 		name: '',
 		description: '',
@@ -19,6 +21,64 @@ export default function AddItemPage() {
 		category: 'Main',
 		image: '',
 	});
+
+	useEffect(() => {
+		// Check authentication on client side
+		const token = document.cookie
+			.split('; ')
+			.find(row => row.startsWith('auth_token='));
+		
+		if (!token) {
+			router.push('/login');
+			return;
+		}
+		
+		setIsAuthenticated(true);
+		setAuthLoading(false);
+	}, [router]);
+
+	const handleChange = e => {
+		const { name, value } = e.target;
+		setFormData(prev => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = async e => {
+		e.preventDefault();
+		setLoading(true);
+		setError('');
+
+		try {
+			const itemData = {
+				...formData,
+				price: parseFloat(formData.price),
+			};
+
+			await createItem(itemData);
+			toast.success('Item created successfully!');
+			router.push('/items');
+			router.refresh();
+		} catch (err) {
+			setError('Failed to create item. Please try again.');
+			toast.error('Failed to create item');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	if (authLoading) {
+		return (
+			<div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+				<div className="text-xl text-gray-600 dark:text-gray-400">Loading...</div>
+			</div>
+		);
+	}
+
+	if (!isAuthenticated) {
+		return null; // Will redirect to login
+	}
 
 	const handleChange = e => {
 		const { name, value } = e.target;

@@ -1,6 +1,7 @@
 import { isAuthenticated } from './auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+// Remove trailing slash from API_URL to prevent double slashes
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
 
 export async function login(email, password) {
 	const res = await fetch(`${API_URL}/api/auth/login`, {

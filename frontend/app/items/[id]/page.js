@@ -2,8 +2,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { fetchItem } from '../../../utils/api';
+import { mockItems } from '../../../utils/mockData';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
+
+// Generate static params for all available items
+export async function generateStaticParams() {
+	return mockItems.map((item) => ({
+		id: item.id.toString(),
+	}));
+}
 
 export default async function ItemDetailsPage({ params }) {
 	const { id } = await params;

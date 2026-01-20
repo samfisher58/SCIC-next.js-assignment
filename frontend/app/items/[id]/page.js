@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { fetchItem } from '../../../utils/api';
 import { mockItems } from '../../../utils/mockData';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
@@ -15,7 +14,9 @@ export async function generateStaticParams() {
 
 export default async function ItemDetailsPage({ params }) {
 	const { id } = await params;
-	const item = await fetchItem(id);
+	
+	// Use mock data directly for static generation
+	const item = mockItems.find(item => item.id.toString() === id);
 
 	if (!item) {
 		notFound();

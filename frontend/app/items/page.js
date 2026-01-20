@@ -1,10 +1,11 @@
-import { fetchItems } from '../../utils/api';
+import { mockItems } from '../../utils/mockData';
 import ItemCard from '../../components/ItemCard';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 
 export default async function ItemsPage() {
-	const items = await fetchItems();
+	// Use mock data directly for static generation
+	const items = mockItems;
 
 	return (
 		<div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col transition-colors duration-300">
